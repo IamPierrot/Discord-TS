@@ -1,0 +1,17 @@
+{
+     "app": {
+          "token": "TOKEN",
+          "global": true,
+          "guild": "",
+          "ExtraMessages": false,
+          "loopMessage": false,
+          "client": "1140305763215093842"
+     },
+     "MONGO" : "Link DataBase",
+     "AIKEY" : "",
+     "levelSystems" : {
+          "xp": 10,
+          "cooldown" : 2000,
+          "extraXP": 100
+     }
+}
