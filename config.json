@@ -1,17 +1,36 @@
 {
+     "MONGO": "mongodb+srv://pierrot:catdog123@clusterdiscord.ev2vzrq.mongodb.net/?retryWrites=true&w=majority",
      "app": {
-          "token": "TOKEN",
+          "token": "MTE0MDMwNTc2MzIxNTA5Mzg0Mg.GLd-Fb.HKlsYj26G8HEB-aU4jDq9om7dzZeRMz2M6gt5k",
           "global": true,
           "guild": "",
           "ExtraMessages": false,
           "loopMessage": false,
-          "client": "1140305763215093842"
+          "client": "1140305763215093842",
+          "prefix": "nqgm"
      },
-     "MONGO" : "Link DataBase",
-     "AIKEY" : "",
-     "levelSystems" : {
+     "opt": {
+          "idDev": [
+               "874321270437728257",
+               "479182625764802560"
+          ],
+          "maxVol": 100,
+          "spotifyBridge": false,
+          "volume": 75,
+          "leaveOnEmpty": false,
+          "leaveOnEmptyCooldown": 30000,
+          "leaveOnEnd": false,
+          "leaveOnEndCooldown": false,
+          "discordPlayer": {
+               "ytdlOptions": {
+                    "quality": "highestaudio",
+                    "highWaterMark": 33554432
+               }
+          }
+     },
+     "levelSystems": {
           "xp": 10,
-          "cooldown" : 2000,
+          "cooldown": 2000,
           "extraXP": 100
      }
 }

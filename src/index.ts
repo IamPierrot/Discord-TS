@@ -1,23 +1,17 @@
-import { Client, Partials, IntentsBitField } from 'discord.js';
+import { Partials, GatewayIntentBits } from 'discord.js';
+import { BaseClient } from './utils/clients';
 import eventHandlers from './handlers/eventHandler';
-import { app } from '../config.json'
+import { mongoSetup } from './database/dbSetup';
+globalThis.configure = require('../config.json');
 
-const client = new Client({
-     intents: [
-          IntentsBitField.Flags.GuildMembers,
-          IntentsBitField.Flags.GuildMessages,
-          IntentsBitField.Flags.MessageContent,
-          IntentsBitField.Flags.Guilds,
-          IntentsBitField.Flags.GuildVoiceStates,
-          IntentsBitField.Flags.GuildModeration
-     ],
-     partials: [
-          Partials.Channel,
-          Partials.Message,
-          Partials.User,
-          Partials.GuildMember,
-     ],
+const client = new BaseClient({
+     intents: Object.keys(GatewayIntentBits) as keyof object,
+     partials: Object.keys(Partials) as keyof object
 });
-eventHandlers(client); //handler the event
 
-client.login(app.token);
+Promise.all([
+     mongoSetup(),
+     eventHandlers(client) //handler the event
+]);
+
+client.login(configure.app.token);

@@ -1,28 +1,28 @@
-import { Client } from "discord.js";
-import getAllFiles from "../utils/getAllFiles";
 import path from "path";
+import { BaseClient } from "../utils/clients";
 
-export default (client: Client) => {
+export = (client: BaseClient) => {
+     try {
+          const eventFolders: string[] | undefined = client.getAllFiles(path.join(__dirname, '..', 'events'), true);
 
-     const eventFolders = getAllFiles(path.join(__dirname, '..', 'events'), true);
+          if (!eventFolders) throw new Error('No folders events have been found');
+          for (const eventFolder of eventFolders) {
+               const eventFiles = client.getAllFiles(eventFolder);
+               eventFiles.sort((a, b) => a > b ? 1 : 0);
 
-     for (const eventFolder of eventFolders) {
-          const eventFiles = getAllFiles(eventFolder);
-          eventFiles.sort((a, b) => a > b ? 1 : -1);
+               const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
+               if (!eventName) throw new Error('Invalid eventName');
 
-          const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
-
-          if (!eventName) {
-               return;
+               
+               client.on(eventName, async (arg1, arg2, arg3, arg4) => {
+                    for (const eventFile of eventFiles) {
+                         const eventFunction = require(eventFile);
+                         await eventFunction(client, arg1, arg2, arg3, arg4);
+                    }
+               });
           }
 
-          client.on(eventName, async (arg1, arg2, arg3, arg4) => {
-               for (const eventFile of eventFiles) {
-                    const eventFunction : Function = require(eventFile);
-                    await eventFunction(client, arg1, arg2, arg3, arg4);
-                    delete require.cache[require.resolve(eventFile)];
-               }
-          });
+     } catch (error) {
+          console.log("There was an error in event handle", error);
      }
-
 }
